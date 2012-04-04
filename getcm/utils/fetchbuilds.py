@@ -1,4 +1,5 @@
 import os
+import time
 import sys
 import urllib2
 import json
@@ -31,7 +32,11 @@ class FetchBuild(object):
         data = urllib2.urlopen(url).read()
         data = json.loads(data)
 
-        if data['building']:
+        if data['building'] or data['duration'] == 0:
+            return None
+
+        if (data['timestamp'] + data['duration'] + 10 * 60 * 1000) > (time.time() * 1000):
+            print("Build %s: Must wait 10 minutes before exposing build to fix hacky race condition" % build['number'])
             return None
 
         for artifact in data['artifacts']:
