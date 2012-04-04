@@ -5,7 +5,7 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relation
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.util import join
-from sqlalchemy.sql.expression import func, desc
+from sqlalchemy.sql.expression import func
 
 class File(Base):
     __tablename__ = "files"
@@ -116,7 +116,7 @@ class File(Base):
                 query = query.filter(cls.type == type)
 
             # Limit the query and order it
-            query = query.order_by(desc(cls.date_created))[:limit]
+            query = query.order_by(cls.id.desc())[:limit]
 
             return query
 
