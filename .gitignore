@@ -1,0 +1,4 @@
+*.pyc
+GetCM.egg-info/*
+build/*
+dist/*

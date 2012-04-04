@@ -1,0 +1,30 @@
+import hashlib
+
+from optparse import OptionParser
+
+def sumfile(fobj):
+    m = hashlib.md5()
+    while True:
+        d = fobj.read(8096)
+        if not d:
+            break
+        m.update(d)
+    return m.hexdigest()
+
+def md5sum(fname):
+    try:
+        f = file(fname, 'rb')
+    except:
+        return 'Fail'
+    ret = sumfile(f)
+    f.close()
+    return ret
+
+def addfile():
+    parser = OptionParser()
+    parser.add_option("-u", "--url", dest="url", help="Download from URL")
+    parser.add_option("-t", "--type", dest="type", help="Build type [stable,RC,nightly]")
+
+    (options, args) = parser.parse_args()
+    print options
+    print args
