@@ -78,6 +78,13 @@ def main():
         default='/etc/getcm.ini',
         help="Path to configuration file."
     )
+    parser.add_argument('--timestamp',
+        dest='timestamp',
+        type=int,
+        required=False,
+        default=None,
+        help="Timestamp of build"
+    )
 
     args = parser.parse_args()
     config = ConfigParser()
@@ -175,7 +182,10 @@ def process_file(args):
     new.info_hash = info_hash
     new.size = os.path.getsize(args.file)
     new.device = ota.build_prop.get('ro.cm.device', 'unknown')
-    new.date_created = datetime.fromtimestamp(os.path.getmtime(args.file))
+    if args.timestamp is not None:
+        new.date_created = datetime.fromtimestamp(args.timestamp)
+    else:
+        new.date_created = datetime.fromtimestamp(os.path.getmtime(args.file))
 
     logging.debug("Filename = %s", new.filename)
     logging.debug("Type = %s", new.type)

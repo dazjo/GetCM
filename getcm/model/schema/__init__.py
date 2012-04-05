@@ -116,7 +116,7 @@ class File(Base):
                 query = query.filter(cls.type == type)
 
             # Limit the query and order it
-            query = query.order_by(cls.id.desc())[:limit]
+            query = query.order_by(cls.date_created.desc())[:limit]
 
             return query
 
