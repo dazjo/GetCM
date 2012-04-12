@@ -59,7 +59,7 @@ class FetchBuild(object):
                 fileobj = File.get_by_fullpath(full_path)
                 if not fileobj:
                     base = "artifacts/%s" % artifact.replace("http://jenkins.cyanogenmod.com/job/android/", "")
-                    cmd = "getcm.addfile --timestamp %s --url %s --fullpath %s --type nightly --config %s" % (timestamp, artifact, base, self.configPath)
+                    cmd = "/usr/local/bin/getcm.addfile --timestamp %s --url %s --fullpath %s --type nightly --config %s" % (timestamp, artifact, base, self.configPath)
                     print "Running: %s" % cmd
                     os.system(cmd)
 
