@@ -69,8 +69,8 @@
       <td><a href="${device_link(device)}">${file.device|h}</a></td>
       <td>${file.type}</td>
       <td>
-        <a href="https://tickleservice.appspot.com/authorizedtickle?applicationId=ROM%20Manager&data.url=http://get.cm/get/${file.full_path}&data.name=${file.filename}&failure_redirect=http://rommanager.appspot.com/webconnectfailure.html&success_redirect=http://rommanager.appspot.com/webconnectsuccess.html"><img src="http://get.cm/static/rommanager.png" alt="Send to ROMManager" title="Send to ROManager"/></a>
-        <a href="http://bacon.cyanogenmod.com/cm/torrents/${file.filename|h}.torrent"><img src="http://get.cm/static/bittorrent.png" alt="Download Torrent" title="Download Torrent"/></a>
+        <a href="https://tickleservice.appspot.com/authorizedtickle?applicationId=ROM%20Manager&data.url=http://get.cm/get/${file.full_path}&data.name=${file.filename}&failure_redirect=http://rommanager.appspot.com/webconnectfailure.html&success_redirect=http://rommanager.appspot.com/webconnectsuccess.html"><img src="http://download.cyanogenmod.com/static/rommanager.png" alt="Send to ROMManager" title="Send to ROManager"/></a>
+        <a href="/torrents/${file.filename|h}.torrent"><img src="/static/bittorrent.png" alt="Download Torrent" title="Download Torrent"/></a>
         &nbsp; <b>Direct Download</b>: 
         <a href="/get/${file.full_path}">${file.filename|h}</a>
         <br/>
