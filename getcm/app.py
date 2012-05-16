@@ -47,11 +47,11 @@ class Application(tornado.web.Application):
         template_path = os.path.join(os.path.dirname(__file__), "templates")
         self.lookup = TemplateLookup(directories=[template_path])
         self.activebuilds = ActiveBuilds()
-        self.stats = Stats()
+        #self.stats = Stats()
 
         self.mirrorpool = WeightedChoice((
-            ('http://mirror.sea.tdrevolution.net/cm/%s', 800),
-            ('http://oss.reflected.net/cm/%s', 1000),
+            ('http://mirror.sea.tdrevolution.net/%s', 1000),
+            ('http://oss.reflected.net/%s', 1000),
         ))
 
 def run_server():
