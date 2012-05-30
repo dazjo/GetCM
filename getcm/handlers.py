@@ -85,7 +85,7 @@ class ZipHandler(BaseHandler):
         if re.match("artifacts/", full_path) is not None:
             url = "http://mirror.sea.tdrevolution.net/cm/%s" % full_path
         else:
-        url = self.mirrorpool.next() % full_path
+            url = self.mirrorpool.next() % full_path
 
         webseed = self.request.arguments.get('webseed', [None])[0]
         if webseed:
@@ -113,7 +113,7 @@ class Base62Handler(BaseHandler):
         if re.match("artifacts/", fileobj.full_path) is not None:
             url = "http://mirror.sea.tdrevolution.net/cm/%s" % fileobj.full_path
         else:
-        url = self.mirrorpool.next() % fileobj.full_path
+            url = self.mirrorpool.next() % fileobj.full_path
 
         webseed = self.request.arguments.get('webseed', [None])[0]
         if webseed:
