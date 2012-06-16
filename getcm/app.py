@@ -50,8 +50,8 @@ class Application(tornado.web.Application):
         #self.stats = Stats()
 
         self.mirrorpool = WeightedChoice((
-            ('http://mirror.sea.tdrevolution.net/%s', 1000),
-            #('http://oss.reflected.net/%s', 1000),
+            ('http://mirror.sea.tdrevolution.net/%s', 100),
+            ('http://oss.reflected.net/%s', 1000),
         ))
 
 def run_server():

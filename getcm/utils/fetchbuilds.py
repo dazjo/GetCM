@@ -45,7 +45,7 @@ class FetchBuild(object):
             print("Build %s: Completed at %s, it is now %s.  Proceeding" % (build['number'], waituntil, now))
 
         for artifact in data['artifacts']:
-            if artifact['displayPath'].endswith(".zip") and "NIGHTLY" in artifact['displayPath']:
+            if artifact['displayPath'].endswith(".zip"): #and "NIGHTLY" in artifact['displayPath'] or "SNAPSHOT" in artifact['displayPath'] or "EXPERIMENTAL" in artifact['displayPath']:
                 url = "http://jenkins.cyanogenmod.com/job/android/%s/artifact/archive/%s" % (build['number'], artifact['displayPath'])
                 timestamp = (data['timestamp'] + data['duration'])/1000
                 return (url, timestamp)
@@ -55,13 +55,41 @@ class FetchBuild(object):
             artifactdata = self.get_artifact(build)
             if artifactdata:
                 artifact, timestamp = artifactdata
-                full_path = artifact.replace("http://jenkins.cyanogenmod.com/job/android","artifacts")
+                full_path = "jenkins/%s/%s" % (artifact.split("/")[5], artifact.split("/")[-1])
+                if os.path.exists("/opt/www/mirror/%s" % full_path):
+                    print "Exists, skipping."
+                    continue
                 fileobj = File.get_by_fullpath(full_path)
                 if not fileobj:
                     base = "artifacts/%s" % artifact.replace("http://jenkins.cyanogenmod.com/job/android/", "")
-                    cmd = "/usr/local/bin/getcm.addfile --timestamp %s --url %s --fullpath %s --type nightly --config %s" % (timestamp, artifact, base, self.configPath)
-                    print "Running: %s" % cmd
-                    os.system(cmd)
+                    build_number = base.split("/")[1]
+                    fname = base.split("/")[-1]
+                    build_type = "stable"
+                    if "NIGHTLY" in artifact:
+                        build_type = "nightly"
+                    if "SNAPSHOT" in artifact:
+                        #build_type = "snapshot"
+                        build_type = "nightly"
+                    if "EXPERIMENTAL" in artifact:
+                        #build_type = "experimental"
+                        build_type = "nightly"
+                    if "-RC" in artifact:
+                        build_type = "RC"
+                    #cmd = "/usr/local/bin/getcm.addfile --timestamp %s --url %s --fullpath %s --type %s --config %s" % (timestamp, artifact, base, build_type, self.configPath)
+                    try:
+                        os.mkdir("/opt/www/mirror/jenkins/%s" % build_number)
+                    except:
+                        pass
+                    download_cmd = "wget -O /opt/www/mirror/jenkins/%s/%s %s" % (build_number, fname, artifact)
+                    print "Running: %s" % download_cmd
+                    os.system(download_cmd)
+                    mirror_cmd = "ssh -p2200 root@mirror.sea.tdrevolution.net \"/root/add.sh /srv/mirror/jenkins/%s %s %s\"" % (build_number, artifact, fname)
+                    print "Running: %s" % mirror_cmd
+                    os.system(mirror_cmd)
+                    addfile_cmd = "/usr/local/bin/getcm.addfile --timestamp %s --file /opt/www/mirror/jenkins/%s/%s --fullpath jenkins/%s/%s --type %s --config %s" % (timestamp, build_number, fname, build_number, fname, build_type, self.configPath)
+                    print "Running: %s" % addfile_cmd
+                    os.system(addfile_cmd)
+                    #raise SystemExit()
 
 
 def main():
