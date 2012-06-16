@@ -3,6 +3,7 @@ import random
 import urllib
 import logging
 import re
+import json
 
 from model.schema import File, Device
 from getcm.utils.string import base62_encode
@@ -131,3 +132,65 @@ class RssHandler(BaseHandler):
         files = File.browse(device, type, 100)
         self.set_header('Content-Type', "application/xml; charset=utf-8")
         self.render("rss.mako", {'files': files})
+
+class ApiHandler(BaseHandler):
+    request_id = None
+
+    def post(self):
+        try:
+            body = json.loads(self.request.body)
+        except ValueError:
+            self.set_status(500)
+            return self.fail("Error decoding JSON")
+
+        self.method = body.get('method', None)
+        self.request_id = body.get('id', None)
+        self.params = body.get('params', None)
+
+        if not self.method:
+            self.set_status(500)
+            return self.fail("method must be specified")
+
+        try:
+            fn = getattr(self, "method_%s" % self.method)
+        except AttributeError:
+            self.set_status(405)
+            return self.fail("Unknown method")
+        else:
+            fn()
+
+    def fail(self, error_message):
+        return self.write(json.dumps({
+            'result': None,
+            'error': error_message,
+            'id': self.request_id
+        }, indent=True))
+
+    def success(self, result):
+        return self.write(json.dumps({
+            'result': result,
+            'error': None,
+            'id': self.request_id
+        }, indent=True))
+
+    def method_get_builds(self):
+        channels = self.params.get('channels', None)
+        device = self.params.get('device', None)
+        after = int(self.params.get('after', 0))
+        if not channels or not device:
+            self.set_status(500)
+            return self.fail("Invalid Parameters")
+
+        result = []
+        for channel in channels:
+            file_obj = File.get_build(channel, device, after)
+            if file_obj is not None:
+                result.append({
+                    'channel': channel,
+                    'filename': file_obj.filename,
+                    'url': "http://get.cm/get/%s" % file_obj.full_path,
+                    'md5sum': file_obj.md5sum,
+                    'timestamp': file_obj.date_created.strftime('%s')
+                })
+
+        return self.success(result)

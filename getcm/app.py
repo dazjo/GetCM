@@ -14,7 +14,7 @@ from mako.template import Template
 from mako.lookup import TemplateLookup
 
 from model import DBSession, init_database, ActiveBuilds
-from handlers import BrowseHandler, RssHandler, SumHandler, ZipHandler, Base62Handler
+from handlers import BrowseHandler, RssHandler, SumHandler, ZipHandler, Base62Handler, ApiHandler
 from getcm.utils import WeightedChoice
 from getcm.stats import Stats
 
@@ -31,6 +31,7 @@ class Application(tornado.web.Application):
             (r"/get/(.*)\.zip", ZipHandler),
             (r"/get/(.*)", Base62Handler),
             (r"/rss", RssHandler),
+            (r"/api", ApiHandler),
         ]
 
         settings = dict(

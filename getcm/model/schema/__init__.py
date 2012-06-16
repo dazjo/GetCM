@@ -1,3 +1,4 @@
+from datetime import datetime
 from getcm import cache
 from getcm.model import Base, DBSession
 from getcm.utils.string import convert_bytes, base62_decode
@@ -124,6 +125,27 @@ class File(Base):
         if result is None:
             result = cache.set(cache_key, get_from_database())
         
+        return result
+
+    @classmethod
+    def get_build(cls, channel, device, after):
+        cache_key = "%s_%s_%s" % (channel, device, after)
+
+        def get_from_database():
+            session = DBSession()
+            query = session.query(cls)
+
+            query = query.select_from(File).filter(cls.type == channel)
+            query = query.filter(cls.device == device)
+            query = query.filter(cls.date_created >= datetime.fromtimestamp(after))
+            query = query.order_by(cls.date_created.desc()).first()
+
+            return query
+
+        result = cache.get(cache_key)
+        if result is None:
+            result = cache.set(cache_key, get_from_database())
+
         return result
 
 class Device(object):
