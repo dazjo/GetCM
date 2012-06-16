@@ -6,7 +6,7 @@ setup(
     name="GetCM",
     version=version,
     packages=find_packages(),
-    install_requires=['tornado', 'sqlalchemy', 'mako', 'python-android'],
+    install_requires=['tornado==2.2', 'sqlalchemy', 'mako', 'python-android'],
     entry_points={
         'console_scripts': [
             'getcm.server=getcm.app:run_server',
