@@ -66,7 +66,7 @@
     % for file in files:
     <% device=file.device %>
     <tr>
-      <td><a href="${device_link(device)}">${file.device|h}</a></td>
+      <td><a href="${device_link(device)}">${file.device|h}</a><br/><small class="md5">${file.name|h}</small></td>
       <td>${file.type}</td>
       <td>
         <a href="https://tickleservice.appspot.com/authorizedtickle?applicationId=ROM%20Manager&data.url=http://get.cm/get/${file.full_path}&data.name=${file.filename}&failure_redirect=http://rommanager.appspot.com/webconnectfailure.html&success_redirect=http://rommanager.appspot.com/webconnectsuccess.html"><img src="http://download.cyanogenmod.com/static/rommanager.png" alt="Send to ROMManager" title="Send to ROManager"/></a>

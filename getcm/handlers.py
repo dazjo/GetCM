@@ -38,8 +38,17 @@ class BrowseHandler(BaseHandler):
         type = self.request.arguments.get('type', [None])[0]
         files = File.browse(device, type)
 
+        try:
+            devicemap = eval(open("/usr/local/share/devices.dict").read())
+        except:
+            devicemap = {}
+
         for fileobj in files:
             fileobj.base62 = base62_encode(fileobj.id)
+            if fileobj.device in devicemap:
+                fileobj.name = devicemap[fileobj.device]
+            else:
+                fileobj.name = ''
 
         def respond(builds):
             return self.render("browse.mako", {'request_type': type, 'request_device': device, 'devices': Device.get_all(), 'files': files, 'builds': builds})
