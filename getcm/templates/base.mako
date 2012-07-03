@@ -24,6 +24,19 @@
       .md5 { font-size: 80%; }
       .content { padding-top: 10px; }
       .adunit { text-align: center; padding-bottom: 10px; }
+
+      a.device span.codename {
+      display:inline;
+      }
+      a.device:hover span.codename {
+      display:none;
+      }
+      a.device span.fullname {
+      display:none;
+      }
+      a.device:hover span.fullname {
+      display:inline;
+      }
     </style>
   </head>
   <body>
@@ -49,7 +62,7 @@
               <li class="nav-header">Devices</li>
               <li id="device_all"><a href="javascript:void(0)" onclick="navigate_device('');">all</a></li>
               % for device in devices:
-              <li id="device_${device}"><a href="javascript:void(0)" onclick="navigate_device('${device}');">${device}</a></li>
+              <li id="device_${device}"><a href="javascript:void(0)" onclick="navigate_device('${device}');" class="device"><span class="codename">${device}</span><span class="fullname">${devicenames[device]}</span></a></li>
               % endfor
             </ul>
           </div>

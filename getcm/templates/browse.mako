@@ -17,6 +17,9 @@
 </%def>
 
 <%def name="filter_label()">
+    % if request_device and len(devicenames) and devicenames[request_device]:
+        for <i>${devicenames[request_device]|h}</i>
+    %endif
     % if request_device and request_type:
         - ${request_device|h} / ${request_type|h}
     % elif request_device and not request_type:
@@ -66,7 +69,7 @@
     % for file in files:
     <% device=file.device %>
     <tr>
-      <td><a href="${device_link(device)}">${file.device|h}</a><br/><small class="md5">${file.name|h}</small></td>
+      <td><a href="${device_link(device)}">${file.device|h}</a><br/><small class="md5">${devicenames[file.device]|h}</small></td>
       <td>${file.type}</td>
       <td>
         <a href="https://tickleservice.appspot.com/authorizedtickle?applicationId=ROM%20Manager&data.url=http://get.cm/get/${file.full_path}&data.name=${file.filename}&failure_redirect=http://rommanager.appspot.com/webconnectfailure.html&success_redirect=http://rommanager.appspot.com/webconnectsuccess.html"><img src="http://download.cyanogenmod.com/static/rommanager.png" alt="Send to ROMManager" title="Send to ROManager"/></a>

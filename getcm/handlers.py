@@ -45,13 +45,17 @@ class BrowseHandler(BaseHandler):
 
         for fileobj in files:
             fileobj.base62 = base62_encode(fileobj.id)
-            if fileobj.device in devicemap:
-                fileobj.name = devicemap[fileobj.device]
-            else:
-                fileobj.name = ''
+
+        devicelist = Device.get_all()
+        namelist = {}
+        for codename in devicelist:
+           if codename in devicemap:
+               namelist[codename] = devicemap[codename]
+           else:
+               namelist[codename] = codename
 
         def respond(builds):
-            return self.render("browse.mako", {'request_type': type, 'request_device': device, 'devices': Device.get_all(), 'files': files, 'builds': builds})
+            return self.render("browse.mako", {'request_type': type, 'request_device': device, 'devices': devicelist,  'devicenames': namelist, 'files': files, 'builds': builds})
 
         #self.stats.incr('view_browse')
         return self.activebuilds.get(respond)
