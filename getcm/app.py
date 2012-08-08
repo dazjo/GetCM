@@ -14,7 +14,7 @@ from mako.template import Template
 from mako.lookup import TemplateLookup
 
 from model import DBSession, init_database, ActiveBuilds
-from handlers import BrowseHandler, RssHandler, SumHandler, ZipHandler, Base62Handler, ApiHandler
+from handlers import BrowseHandler, RssHandler, SumHandler, ZipHandler, Base62Handler, ApiHandler, MirrorApplicationHandler
 from getcm.utils import WeightedChoice
 from getcm.stats import Stats
 
@@ -32,6 +32,7 @@ class Application(tornado.web.Application):
             (r"/get/(.*)", Base62Handler),
             (r"/rss", RssHandler),
             (r"/api", ApiHandler),
+            (r"/mirror", MirrorApplicationHandler),
         ]
 
         settings = dict(
@@ -51,8 +52,10 @@ class Application(tornado.web.Application):
         #self.stats = Stats()
 
         self.mirrorpool = WeightedChoice((
-            ('http://mirror.sea.tdrevolution.net/%s', 100),
             ('http://oss.reflected.net/%s', 1000),
+            ('http://mirror.sea.tdrevolution.net/%s', 500),
+            ('http://cm.sponsored.cb-webhosting.de/%s', 50),
+            ('http://mirror.netcologne.de/cyanogenmod/%s', 100),
         ))
 
 def run_server():
