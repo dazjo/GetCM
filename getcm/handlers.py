@@ -204,6 +204,29 @@ class ApiHandler(BaseHandler):
 
         return self.success(result)
 
+    def method_get_all_builds(self):
+        channels = self.params.get('channels', None)
+        device = self.params.get('device', None)
+        limit = int(self.params.get('limit', 3))
+        if not channels or not device:
+            self.set_status(500)
+            return self.fail("Invalid Parameters")
+
+        result = []
+        for channel in channels:
+            files = File.browse(device, channel, limit)
+            for file_obj in files:
+                if file_obj is not None:
+                    result.append({
+                        'channel': channel,
+                        'filename': file_obj.filename,
+                        'url': "http://get.cm/get/%s" % file_obj.full_path,
+                        'md5sum': file_obj.md5sum,
+                        'timestamp': file_obj.date_created.strftime('%s')
+                    })
+
+        return self.success(result)
+
 class MirrorApplicationHandler(BaseHandler):
     def get(self):
         return self.render("mirror.mako")
