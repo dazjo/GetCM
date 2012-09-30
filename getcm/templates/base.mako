@@ -54,6 +54,7 @@
               <li id="type_all"><a href="javascript:void(0)" onclick="navigate_type('')">all</a></li>
               <li id="type_stable"><a href="javascript:void(0)" onclick="navigate_type('stable')">stable</a></li>
               <li id="type_RC"><a href="javascript:void(0)" onclick="navigate_type('RC')">release candidate</a></li>
+              <li id="type_snapshot"><a href="javascript:void(0)" onclick="navigate_type('snapshot')">M snapshot</a></li>
               <li id="type_nightly"><a href="javascript:void(0)" onclick="navigate_type('nightly')">nightly</a></li>
             </ul>
           </div>
@@ -68,17 +69,7 @@
           </div>
         </div>
         <div class="span10 adunit">
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-4305693279235670";
-/* TeamDouche Mirror */
-google_ad_slot = "5118872808";
-google_ad_width = 728;
-google_ad_height = 90;
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
+            Special thanks to <a href="http://reflected.net/" target="_new">ReflectedNetworks</a> for donating bandwidth.  Interested in becoming a mirror?  <a href="/mirror">Find out more.</a>
         </div>
         <div class="span10">
           ${next.body()}

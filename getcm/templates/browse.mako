@@ -17,9 +17,9 @@
 </%def>
 
 <%def name="filter_label()">
-    % if request_device and len(devicenames) and devicenames[request_device]:
+    % if request_device and len(devicenames) and request_device in devicenames:
         for <i>${devicenames[request_device]|h}</i>
-    %endif
+    % endif
     % if request_device and request_type:
         - ${request_device|h} / ${request_type|h}
     % elif request_device and not request_type:
