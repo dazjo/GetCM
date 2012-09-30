@@ -71,6 +71,9 @@ class FetchBuild(object):
                         #build_type = "snapshot"
                         build_type = "nightly"
                     if "EXPERIMENTAL" in artifact:
+                        if "-M" in artifact:
+                            build_type = "snapshot"
+                        else:
                         #build_type = "experimental"
                         build_type = "nightly"
                     if "-RC" in artifact:

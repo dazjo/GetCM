@@ -55,7 +55,7 @@ def main():
     )
     parser.add_argument('--type',
         dest='type',
-        choices=['nightly','RC','stable'],
+        choices=['nightly','RC','stable','snapshot'],
         required=True,
         type=unicode,
         help="Type of file"
