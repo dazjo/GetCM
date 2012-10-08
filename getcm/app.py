@@ -29,6 +29,7 @@ class Application(tornado.web.Application):
             (r"/", BrowseHandler),
             (r"/get/(.*)\.md5sum", SumHandler),
             (r"/get/(.*)\.zip", ZipHandler),
+            (r"/get/(.*/CHANGES.txt)", tornado.web.StaticFileHandler, {"path": "/opt/www/mirror"}),
             (r"/get/(.*)", Base62Handler),
             (r"/rss", RssHandler),
             (r"/api", ApiHandler),

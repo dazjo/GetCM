@@ -44,16 +44,19 @@ class FetchBuild(object):
         else:
             print("Build %s: Completed at %s, it is now %s.  Proceeding" % (build['number'], waituntil, now))
 
+        result = []
         for artifact in data['artifacts']:
-            if artifact['displayPath'].endswith(".zip"): #and "NIGHTLY" in artifact['displayPath'] or "SNAPSHOT" in artifact['displayPath'] or "EXPERIMENTAL" in artifact['displayPath']:
+            if artifact['displayPath'].endswith(".zip") or artifact['displayPath'].endswith("CHANGES.txt"): #and "NIGHTLY" in artifact['displayPath'] or "SNAPSHOT" in artifact['displayPath'] or "EXPERIMENTAL" in artifact['displayPath']:
                 url = "http://jenkins.cyanogenmod.com/job/android/%s/artifact/archive/%s" % (build['number'], artifact['displayPath'])
                 timestamp = (data['timestamp'] + data['duration'])/1000
-                return (url, timestamp)
+                result.append((url, timestamp))
+        return result
 
     def run(self):
         for build in self.get_builds():
-            artifactdata = self.get_artifact(build)
-            if artifactdata:
+            artifactlist = self.get_artifact(build)
+            if artifactlist:
+              for artifactdata in artifactlist:
                 artifact, timestamp = artifactdata
                 full_path = "jenkins/%s/%s" % (artifact.split("/")[5], artifact.split("/")[-1])
                 if os.path.exists("/opt/www/mirror/%s" % full_path):
@@ -74,8 +77,8 @@ class FetchBuild(object):
                         if "-M" in artifact:
                             build_type = "snapshot"
                         else:
-                        #build_type = "experimental"
-                        build_type = "nightly"
+                            #build_type = "experimental"
+                            build_type = "nightly"
                     if "-RC" in artifact:
                         build_type = "RC"
                     #cmd = "/usr/local/bin/getcm.addfile --timestamp %s --url %s --fullpath %s --type %s --config %s" % (timestamp, artifact, base, build_type, self.configPath)
@@ -86,13 +89,14 @@ class FetchBuild(object):
                     download_cmd = "wget -O /opt/www/mirror/jenkins/%s/%s %s" % (build_number, fname, artifact)
                     print "Running: %s" % download_cmd
                     os.system(download_cmd)
-                    mirror_cmd = "ssh -p2200 root@mirror.sea.tdrevolution.net \"/root/add.sh /srv/mirror/jenkins/%s %s %s\"" % (build_number, artifact, fname)
-                    print "Running: %s" % mirror_cmd
-                    os.system(mirror_cmd)
-                    addfile_cmd = "/usr/local/bin/getcm.addfile --timestamp %s --file /opt/www/mirror/jenkins/%s/%s --fullpath jenkins/%s/%s --type %s --config %s" % (timestamp, build_number, fname, build_number, fname, build_type, self.configPath)
-                    print "Running: %s" % addfile_cmd
-                    os.system(addfile_cmd)
-                    #raise SystemExit()
+                    if (fname != "CHANGES.txt"):
+                        mirror_cmd = "ssh -p2200 root@mirror.sea.tdrevolution.net \"/root/add.sh /srv/mirror/jenkins/%s %s %s\"" % (build_number, artifact, fname)
+                        print "Running: %s" % mirror_cmd
+                        os.system(mirror_cmd)
+                        addfile_cmd = "/usr/local/bin/getcm.addfile --timestamp %s --file /opt/www/mirror/jenkins/%s/%s --fullpath jenkins/%s/%s --type %s --config %s" % (timestamp, build_number, fname, build_number, fname, build_type, self.configPath)
+                        print "Running: %s" % addfile_cmd
+                        os.system(addfile_cmd)
+                        #raise SystemExit()
 
 
 def main():

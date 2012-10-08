@@ -194,10 +194,12 @@ class ApiHandler(BaseHandler):
         for channel in channels:
             file_obj = File.get_build(channel, device, after)
             if file_obj is not None:
+                changesfile = re.sub(file_obj.filename,"CHANGES.txt",file_obj.full_path)
                 result.append({
                     'channel': channel,
                     'filename': file_obj.filename,
                     'url': "http://get.cm/get/%s" % file_obj.full_path,
+                    'changes': "http://get.cm/get/%s" % changesfile,
                     'md5sum': file_obj.md5sum,
                     'timestamp': file_obj.date_created.strftime('%s')
                 })
@@ -217,10 +219,12 @@ class ApiHandler(BaseHandler):
             files = File.browse(device, channel, limit)
             for file_obj in files:
                 if file_obj is not None:
+                    changesfile = re.sub(file_obj.filename,"CHANGES.txt",file_obj.full_path)
                     result.append({
                         'channel': channel,
                         'filename': file_obj.filename,
                         'url': "http://get.cm/get/%s" % file_obj.full_path,
+                        'changes': "http://get.cm/get/%s" % changesfile,
                         'md5sum': file_obj.md5sum,
                         'timestamp': file_obj.date_created.strftime('%s')
                     })
