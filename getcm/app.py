@@ -55,7 +55,7 @@ class Application(tornado.web.Application):
             ('http://oss.reflected.net/%s', 1000),
             ('http://mirror.sea.tdrevolution.net/%s', 500),
             ('http://cm.sponsored.cb-webhosting.de/%s', 50),
-            ('http://mirror.netcologne.de/cyanogenmod/%s', 100),
+            ('http://mirror.netcologne.de/cyanogenmod/%s', 50),
         ))
 
 def run_server():
