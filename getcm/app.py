@@ -50,6 +50,7 @@ class Application(tornado.web.Application):
         template_path = os.path.join(os.path.dirname(__file__), "templates")
         self.lookup = TemplateLookup(directories=[template_path])
         self.activebuilds = ActiveBuilds()
+        self.devicedict = {}
         #self.stats = Stats()
 
         self.mirrorpool = WeightedChoice((

@@ -4,6 +4,7 @@ import urllib
 import logging
 import re
 import json
+import time
 
 from model.schema import File, Device
 from getcm.utils.string import base62_encode
@@ -26,6 +27,10 @@ class BaseHandler(tornado.web.RequestHandler):
     def mirrorpool(self):
         return self.application.mirrorpool
 
+    @property
+    def devicedict(self):
+        return self.application.devicedict
+
     def render(self, template, params={}):
         tpl = self.application.lookup.get_template(template)
         self.write(tpl.render(**params))
@@ -38,24 +43,27 @@ class BrowseHandler(BaseHandler):
         type = self.request.arguments.get('type', [None])[0]
         files = File.browse(device, type)
 
+        for fileobj in files:
+            fileobj.base62 = base62_encode(fileobj.id)
+
+        devicelist = Device.get_all()
+
+        if 'dtime' not in self.devicedict or self.devicedict['dtime'] < time.time() - 300:
         try:
             devicemap = eval(open("/usr/local/share/devices.dict").read())
         except:
             devicemap = {}
 
-        for fileobj in files:
-            fileobj.base62 = base62_encode(fileobj.id)
-
-        devicelist = Device.get_all()
-        namelist = {}
         for codename in devicelist:
            if codename in devicemap:
-               namelist[codename] = devicemap[codename]
+                   self.devicedict[codename] = devicemap[codename]
            else:
-               namelist[codename] = codename
+                   self.devicedict[codename] = codename
+
+            self.devicedict['dtime'] = time.time()
 
         def respond(builds):
-            return self.render("browse.mako", {'request_type': type, 'request_device': device, 'devices': devicelist,  'devicenames': namelist, 'files': files, 'builds': builds})
+            return self.render("browse.mako", {'request_type': type, 'request_device': device, 'devices': devicelist,  'devicenames': self.devicedict, 'files': files, 'builds': builds})
 
         #self.stats.incr('view_browse')
         #return self.activebuilds.get(respond)
