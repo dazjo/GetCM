@@ -48,7 +48,7 @@ class Application(tornado.web.Application):
         init_database(create_engine(config.get('database', 'uri')))
         self.db = DBSession
         template_path = os.path.join(os.path.dirname(__file__), "templates")
-        self.lookup = TemplateLookup(directories=[template_path])
+        self.lookup = TemplateLookup(directories=[template_path], filesystem_checks = False)
         self.activebuilds = ActiveBuilds()
         self.devicedict = {}
         #self.stats = Stats()
