@@ -49,15 +49,15 @@ class BrowseHandler(BaseHandler):
         devicelist = Device.get_all()
 
         if 'dtime' not in self.devicedict or self.devicedict['dtime'] < time.time() - 300:
-        try:
-            devicemap = eval(open("/usr/local/share/devices.dict").read())
-        except:
-            devicemap = {}
+            try:
+                devicemap = eval(open("/usr/local/share/devices.dict").read())
+            except:
+                devicemap = {}
 
-        for codename in devicelist:
-           if codename in devicemap:
+            for codename in devicelist:
+               if codename in devicemap:
                    self.devicedict[codename] = devicemap[codename]
-           else:
+               else:
                    self.devicedict[codename] = codename
 
             self.devicedict['dtime'] = time.time()

@@ -55,9 +55,11 @@ class Application(tornado.web.Application):
 
         self.mirrorpool = WeightedChoice((
             ('http://oss.reflected.net/%s', 1000),
-            ('http://mirror.sea.tdrevolution.net/%s', 500),
-            ('http://cm.sponsored.cb-webhosting.de/%s', 50),
+            ('http://mirror.symnds.com/software/cm/%s', 1000),
+            #('http://mirror.sea.tdrevolution.net/%s', 50),
+            ('http://cm.sponsored.cb-webhosting.de/%s', 25),
             ('http://mirror.netcologne.de/cyanogenmod/%s', 75),
+            ('http://mirror.i3d.net/pub/cyanogenmod/%s', 50),
         ))
 
 def run_server():
