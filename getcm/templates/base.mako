@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>CyanogenMod Downloads</title>
-    <link rel="stylesheet" type="text/css" href="http://download.cyanogenmod.com/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="http://download.cyanogenmod.com/bootstrap/css/bootstrap-responsive.min.css"/>
+    <link rel="stylesheet" type="text/css" href="http://download.cyanogenmod.org/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="http://download.cyanogenmod.org/bootstrap/css/bootstrap-responsive.min.css"/>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
     <script type="text/javascript"> 
 
@@ -43,7 +43,7 @@
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span-12">
-          <img src="http://download.cyanogenmod.com/static/logo.png" alt="CyanogenMod" />
+          <img src="http://download.cyanogenmod.org/static/logo.png" alt="CyanogenMod" />
         </div>
       </div>
       <div class="row-fluid content">
