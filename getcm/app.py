@@ -51,6 +51,7 @@ class Application(tornado.web.Application):
         self.lookup = TemplateLookup(directories=[template_path], filesystem_checks = False)
         self.activebuilds = ActiveBuilds()
         self.devicedict = {}
+        self.apicache = {}
         #self.stats = Stats()
 
         self.mirrorpool = WeightedChoice((

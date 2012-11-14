@@ -5,6 +5,7 @@ import logging
 import re
 import json
 import time
+import sys
 
 from model.schema import File, Device
 from getcm.utils.string import base62_encode
@@ -30,6 +31,10 @@ class BaseHandler(tornado.web.RequestHandler):
     @property
     def devicedict(self):
         return self.application.devicedict
+
+    @property
+    def apicache(self):
+        return self.application.apicache
 
     def render(self, template, params={}):
         tpl = self.application.lookup.get_template(template)
@@ -198,6 +203,10 @@ class ApiHandler(BaseHandler):
             self.set_status(500)
             return self.fail("Invalid Parameters")
 
+        cachekey = 'after_'+device+'_'+str(round(after,-4))
+        if cachekey in self.apicache and self.apicache[cachekey]['dtime'] + 900 > time.time():
+            return self.success(self.apicache[cachekey]['result'])
+
         result = []
         for channel in channels:
             file_obj = File.get_build(channel, device, after)
@@ -212,6 +221,9 @@ class ApiHandler(BaseHandler):
                     'timestamp': file_obj.date_created.strftime('%s')
                 })
 
+        self.apicache[cachekey] = { 'dtime': time.time(),
+                                    'result': result };
+
         return self.success(result)
 
     def method_get_all_builds(self):
@@ -221,6 +233,10 @@ class ApiHandler(BaseHandler):
         if not channels or not device:
             self.set_status(500)
             return self.fail("Invalid Parameters")
+
+        cachekey = 'all_'+device+'_'+str(limit)
+        if cachekey in self.apicache and self.apicache[cachekey]['dtime'] + 900 > time.time():
+            return self.success(self.apicache[cachekey]['result'])
 
         result = []
         for channel in channels:
@@ -236,6 +252,9 @@ class ApiHandler(BaseHandler):
                         'md5sum': file_obj.md5sum,
                         'timestamp': file_obj.date_created.strftime('%s')
                     })
+
+        self.apicache[cachekey] = { 'dtime': time.time(),
+                                    'result': result };
 
         return self.success(result)
 
