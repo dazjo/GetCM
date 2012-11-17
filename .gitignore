@@ -2,3 +2,4 @@
 GetCM.egg-info/*
 build/*
 dist/*
+*.db
