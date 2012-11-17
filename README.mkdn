@@ -1,0 +1,4 @@
+GetCM
+=====
+
+[![Build Status](https://secure.travis-ci.org/CyanogenMod/GetCM.png)](http://travis-ci.org/CyanogenMod/GetCM)

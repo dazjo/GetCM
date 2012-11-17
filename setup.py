@@ -7,6 +7,7 @@ setup(
     version=version,
     packages=find_packages(),
     install_requires=['tornado==2.2', 'sqlalchemy', 'mako', 'python-android'],
+    tests_require=['nose'],
     entry_points={
         'console_scripts': [
             'getcm.server=getcm.app:run_server',
