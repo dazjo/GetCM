@@ -17,10 +17,6 @@ class BaseHandler(tornado.web.RequestHandler):
     def devicedict(self):
         return self.application.devicedict
 
-    @property
-    def apicache(self):
-        return self.application.apicache
-
     def render(self, template, params={}):
         tpl = self.application.lookup.get_template(template)
         self.write(tpl.render(**params))

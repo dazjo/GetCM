@@ -50,7 +50,6 @@ class Application(tornado.web.Application):
         self.lookup = TemplateLookup(directories=[template_path], filesystem_checks = False)
         self.activebuilds = ActiveBuilds()
         self.devicedict = {}
-        self.apicache = {}
 
         self.mirrorpool = WeightedChoice((
             ('http://oss.reflected.net/%s', 1000),

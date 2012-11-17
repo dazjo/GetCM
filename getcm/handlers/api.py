@@ -2,6 +2,7 @@ import json
 import time
 import re
 from tornado.web import asynchronous
+from getcm import cache
 from getcm.model.schema import File
 from base import BaseHandler
 
@@ -53,9 +54,10 @@ class ApiHandler(BaseHandler):
             self.set_status(500)
             return self.fail("Invalid Parameters")
 
-        cachekey = 'after_'+device+'_'+str(round(after,-4))
-        if cachekey in self.apicache and self.apicache[cachekey]['dtime'] + 900 > time.time():
-            return self.success(self.apicache[cachekey]['result'])
+        cache_key = 'api_after_%s_%s' % (device, str(round(after,-4)))
+        result = cache.get(cache_key)
+        if result is not None:
+            return self.success(result)
 
         result = []
         for channel in channels:
@@ -71,9 +73,8 @@ class ApiHandler(BaseHandler):
                     'timestamp': file_obj.date_created.strftime('%s')
                 })
 
-        self.apicache[cachekey] = { 'dtime': time.time(),
-                                    'result': result };
-
+        cache.set(cache_key, result)
+        
         return self.success(result)
 
     def method_get_all_builds(self):
@@ -84,9 +85,10 @@ class ApiHandler(BaseHandler):
             self.set_status(500)
             return self.fail("Invalid Parameters")
 
-        cachekey = 'all_'+device+'_'+str(limit)
-        if cachekey in self.apicache and self.apicache[cachekey]['dtime'] + 900 > time.time():
-            return self.success(self.apicache[cachekey]['result'])
+        cache_key = 'api_all_%s_%s' % (device, str(limit))
+        result = cache.get(cache_key)
+        if result is not None:
+            return self.success(result)
 
         result = []
         for channel in channels:
@@ -103,7 +105,6 @@ class ApiHandler(BaseHandler):
                         'timestamp': file_obj.date_created.strftime('%s')
                     })
 
-        self.apicache[cachekey] = { 'dtime': time.time(),
-                                    'result': result };
+        cache.set(cache_key, result)
 
         return self.success(result)
