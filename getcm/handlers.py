@@ -8,6 +8,7 @@ import time
 import sys
 
 from model.schema import File, Device
+from model.devicemap import devicemap
 from getcm.utils.string import base62_encode
 from tornado.web import asynchronous
 
@@ -54,11 +55,6 @@ class BrowseHandler(BaseHandler):
         devicelist = Device.get_all()
 
         if 'dtime' not in self.devicedict or self.devicedict['dtime'] < time.time() - 300:
-            try:
-                devicemap = eval(open("/usr/local/share/devices.dict").read())
-            except:
-                devicemap = {}
-
             for codename in devicelist:
                if codename in devicemap:
                    self.devicedict[codename] = devicemap[codename]
