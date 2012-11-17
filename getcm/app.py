@@ -33,10 +33,11 @@ class Application(tornado.web.Application):
             (r"/rss", RssHandler),
             (r"/api", ApiHandler),
             (r"/mirror", MirrorApplicationHandler),
+            (r"/static/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(os.path.dirname(__file__), "static")}),
         ]
-
+        
         settings = dict(
-            debug=options.debug
+            debug=options.debug,
         )
         super(Application, self).__init__(handlers, **settings)
 
