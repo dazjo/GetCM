@@ -8,6 +8,20 @@ from base import BaseHandler
 class ApiHandler(BaseHandler):
     request_id = None
 
+    def fail(self, error_message):
+        return self.write(json.dumps({
+            'result': None,
+            'error': error_message,
+            'id': self.request_id
+        }, indent=True))
+
+    def success(self, result):
+        return self.write(json.dumps({
+            'result': result,
+            'error': None,
+            'id': self.request_id
+        }, indent=True))
+
     def post(self):
         try:
             body = json.loads(self.request.body)
@@ -30,20 +44,6 @@ class ApiHandler(BaseHandler):
             return self.fail("Unknown method")
         else:
             fn()
-
-    def fail(self, error_message):
-        return self.write(json.dumps({
-            'result': None,
-            'error': error_message,
-            'id': self.request_id
-        }, indent=True))
-
-    def success(self, result):
-        return self.write(json.dumps({
-            'result': result,
-            'error': None,
-            'id': self.request_id
-        }, indent=True))
 
     def method_get_builds(self):
         channels = self.params.get('channels', None)
