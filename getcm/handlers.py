@@ -18,10 +18,6 @@ class BaseHandler(tornado.web.RequestHandler):
         return self.application.activebuilds
 
     @property
-    def stats(self):
-        return self.application.stats
-
-    @property
     def db(self):
         return self.application.db
 
@@ -66,8 +62,6 @@ class BrowseHandler(BaseHandler):
         def respond(builds):
             return self.render("browse.mako", {'request_type': type, 'request_device': device, 'devices': devicelist,  'devicenames': self.devicedict, 'files': files, 'builds': builds})
 
-        #self.stats.incr('view_browse')
-        #return self.activebuilds.get(respond)
         return respond([])
 
 class SumHandler(BaseHandler):
@@ -83,7 +77,6 @@ class SumHandler(BaseHandler):
             self.write("404 Not Found")
             return self.set_status(404)
 
-        #self.stats.incr('md5sum')
         return self.write("%s  %s" % (fileobj.filename, fileobj.md5sum))
 
 class ZipHandler(BaseHandler):
@@ -102,7 +95,6 @@ class ZipHandler(BaseHandler):
             full_path = request
         else:
             full_path = fileobj.full_path
-            #self.stats.incr('bytes', fileobj.size)
 
             url = self.mirrorpool.next() % full_path
 
@@ -111,7 +103,6 @@ class ZipHandler(BaseHandler):
             url = url + "?" + urllib.urlencode({'webseed': webseed})
             logging.warn("Webseeding for '%s'" % fileobj.filename)
 
-        #self.stats.incr('downloads')
         return self.redirect(url)
 
 class Base62Handler(BaseHandler):
@@ -139,8 +130,6 @@ class Base62Handler(BaseHandler):
             url = url + "?" + urllib.urlencode({'webseed': webseed})
             logging.warn("Webseeding for '%s'" % fileobj.filename)
 
-        #self.stats.incr('downloads')
-        #self.stats.incr('bytes', fileobj.size)
         return self.redirect(url)
 
 class RssHandler(BaseHandler):

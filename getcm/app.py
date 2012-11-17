@@ -16,7 +16,6 @@ from mako.lookup import TemplateLookup
 from model import DBSession, init_database, ActiveBuilds
 from handlers import BrowseHandler, RssHandler, SumHandler, ZipHandler, Base62Handler, ApiHandler, MirrorApplicationHandler
 from getcm.utils import WeightedChoice
-from getcm.stats import Stats
 
 define('port', 6543)
 define('debug', True)
@@ -52,7 +51,6 @@ class Application(tornado.web.Application):
         self.activebuilds = ActiveBuilds()
         self.devicedict = {}
         self.apicache = {}
-        #self.stats = Stats()
 
         self.mirrorpool = WeightedChoice((
             ('http://oss.reflected.net/%s', 1000),
