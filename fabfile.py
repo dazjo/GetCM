@@ -17,7 +17,7 @@ env.key_filename = os.path.join(os.environ['TARDIS_HOME'], "keys", "fab_rsa")
 
 def all():
     env.user = "fabric"
-    env.hosts = ['get.cm']
+    env.hosts = ['get.cm:22221']
 
 def uptime():
     run('uptime')
