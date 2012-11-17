@@ -18,11 +18,6 @@ class ZipHandler(BaseHandler):
         else:
             full_path = fileobj.full_path
 
-            url = self.mirrorpool.next() % full_path
-
-        webseed = self.request.arguments.get('webseed', [None])[0]
-        if webseed:
-            url = url + "?" + urllib.urlencode({'webseed': webseed})
-            logging.warn("Webseeding for '%s'" % fileobj.filename)
+        url = self.mirrorpool.next() % full_path
 
         return self.redirect(url)
