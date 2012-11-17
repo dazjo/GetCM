@@ -26,7 +26,4 @@ class BrowseHandler(BaseHandler):
 
             self.devicedict['dtime'] = time.time()
 
-        def respond(builds):
-            return self.render("browse.mako", {'request_type': type, 'request_device': device, 'devices': devicelist,  'devicenames': self.devicedict, 'files': files, 'builds': builds})
-
-        return respond([])
+        return self.render("browse.mako", {'request_type': type, 'request_device': device, 'devices': devicelist, 'devicenames': self.devicedict, 'files': files})

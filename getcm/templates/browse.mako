@@ -29,30 +29,6 @@
     % endif
 </%def>
 
-% if len(builds) > 0:
-<h3>Builds in Progress</h3>
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th>Build Number</th>
-      <th>Type</th>
-      <th>Branch</th>
-      <th>Device</th>
-    </tr>
-  </thead>
-  <tbody>
-    % for build in builds:
-    <tr>
-      <td>${build['number']}</td>
-      <td>${build['type']}</td>
-      <td>${build['branch']}</td>
-      <td>${build['lunch']}</td>
-    </tr>
-    % endfor
-  </tbody>
-</table>
-% endif
-
 <h3>Browse Files ${filter_label()}</h3>
 
 <table class="table table-bordered table-striped">

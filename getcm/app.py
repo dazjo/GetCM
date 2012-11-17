@@ -13,7 +13,7 @@ from sqlalchemy import create_engine
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
-from model import DBSession, init_database, ActiveBuilds
+from model import DBSession, init_database
 from handlers import BrowseHandler, RssHandler, SumHandler, ZipHandler, Base62Handler, ApiHandler, MirrorApplicationHandler
 from getcm.utils import WeightedChoice
 
@@ -48,7 +48,6 @@ class Application(tornado.web.Application):
         self.db = DBSession
         template_path = os.path.join(os.path.dirname(__file__), "templates")
         self.lookup = TemplateLookup(directories=[template_path], filesystem_checks = False)
-        self.activebuilds = ActiveBuilds()
         self.devicedict = {}
 
         self.mirrorpool = WeightedChoice((

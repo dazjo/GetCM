@@ -2,10 +2,6 @@ import tornado.web
 
 class BaseHandler(tornado.web.RequestHandler):
     @property
-    def activebuilds(self):
-        return self.application.activebuilds
-
-    @property
     def db(self):
         return self.application.db
 
