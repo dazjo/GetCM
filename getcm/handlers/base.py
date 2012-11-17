@@ -9,10 +9,6 @@ class BaseHandler(tornado.web.RequestHandler):
     def mirrorpool(self):
         return self.application.mirrorpool
 
-    @property
-    def devicedict(self):
-        return self.application.devicedict
-
     def render(self, template, params={}):
         tpl = self.application.lookup.get_template(template)
         self.write(tpl.render(**params))

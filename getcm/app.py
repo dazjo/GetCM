@@ -48,7 +48,6 @@ class Application(tornado.web.Application):
         self.db = DBSession
         template_path = os.path.join(os.path.dirname(__file__), "templates")
         self.lookup = TemplateLookup(directories=[template_path], filesystem_checks = False)
-        self.devicedict = {}
 
         self.mirrorpool = WeightedChoice((
             ('http://oss.reflected.net/%s', 1000),
