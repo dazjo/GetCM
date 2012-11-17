@@ -59,17 +59,12 @@ class Application(tornado.web.Application):
         ))
 
 def run_server():
-    parser = argparse.ArgumentParser(description="get.cm server")
-    parser.add_argument('--port', dest='port', type=int, help='Port')
-    parser.add_argument('--config', dest='config', type=unicode, help="Path to configuration file", default="/etc/getcm.ini")
-    parser.add_argument('--logging', dest='logging', type=unicode, help="Logging level", choices=['debug', 'info', 'warning', 'error', 'none'], default='debug')
-    args = parser.parse_args()
+    # Define command line options
+    define('config', default='/etc/getcm.ini', type=unicode, help="Path to configuration file")
+    tornado.options.parse_command_line()
+    app = Application()
 
-    define('settings', '')
-    options.logging = args.logging
-    options.port = args.port
-    options.config = args.config
-    server = tornado.httpserver.HTTPServer(Application(), xheaders=True)
+    server = tornado.httpserver.HTTPServer(app, xheaders=True)
     server.listen(int(options.port))
     IOLoop.instance().start()
 
