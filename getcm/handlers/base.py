@@ -1,4 +1,5 @@
 import tornado.web
+from getcm.utils import helpers
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -11,6 +12,7 @@ class BaseHandler(tornado.web.RequestHandler):
         return self.application.mirrorpool
 
     def render(self, template, params={}):
+        params.update({'h': helpers})
         tpl = self.application.lookup.get_template(template)
         self.write(tpl.render(**params))
         self.finish()

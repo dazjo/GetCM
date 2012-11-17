@@ -26,7 +26,7 @@ class Cache(object):
             logging.info("Cache Miss for '%s'" % (key))
             return None
 
-    def set(self, key, value):
-        expires = time.time() + 600
+    def set(self, key, value, expiry=600):
+        expires = time.time() + expiry
         self.store[key] = (value, expires)
         return value
