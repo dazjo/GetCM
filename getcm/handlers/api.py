@@ -43,7 +43,7 @@ class ApiHandler(BaseHandler):
             self.set_status(405)
             return self.fail("Unknown method")
         else:
-            fn()
+            return fn()
 
     def method_get_builds(self):
         channels = self.params.get('channels', None)
