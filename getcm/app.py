@@ -22,6 +22,7 @@ define('debug', True)
 
 logging.basicConfig(level=logging.DEBUG)
 
+
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
@@ -35,7 +36,7 @@ class Application(tornado.web.Application):
             (r"/mirror", MirrorApplicationHandler),
             (r"/static/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(os.path.dirname(__file__), "static")}),
         ]
-        
+
         settings = dict(
             debug=options.debug,
         )
@@ -48,7 +49,7 @@ class Application(tornado.web.Application):
         init_database(create_engine(config.get('database', 'uri')))
         self.db = DBSession
         template_path = os.path.join(os.path.dirname(__file__), "templates")
-        self.lookup = TemplateLookup(directories=[template_path], filesystem_checks = False)
+        self.lookup = TemplateLookup(directories=[template_path], filesystem_checks=False)
 
         self.mirrorpool = WeightedChoice((
             ('http://oss.reflected.net/%s', 1000),
@@ -58,6 +59,7 @@ class Application(tornado.web.Application):
             ('http://cm.sponsored.cb-webhosting.de/%s', 25),
             ('http://mirror.i3d.net/pub/cyanogenmod/%s', 50),
         ))
+
 
 def run_server():
     # Define command line options

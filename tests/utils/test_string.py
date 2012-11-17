@@ -1,6 +1,7 @@
 from unittest import TestCase
 from getcm.utils.string import *
 
+
 class TestStringUtils(TestCase):
     def test_convert_bytes(self):
         assert convert_bytes(1024) == '1.00 KB'

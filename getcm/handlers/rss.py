@@ -1,6 +1,7 @@
 from getcm.model.schema import File
 from base import BaseHandler
 
+
 class RssHandler(BaseHandler):
     def get(self):
         device = self.request.arguments.get('device', [None])[0]

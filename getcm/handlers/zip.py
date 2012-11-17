@@ -1,6 +1,7 @@
 from getcm.model.schema import File
 from base import BaseHandler
 
+
 class ZipHandler(BaseHandler):
     def get(self, request):
         request = request + ".zip"

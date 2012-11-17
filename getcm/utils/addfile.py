@@ -21,6 +21,7 @@ from getcm.utils.torrent import create_torrent
 # Initialize Logging
 logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.DEBUG)
 
+
 def sumfile(fobj):
     m = hashlib.md5()
     while True:
@@ -29,6 +30,7 @@ def sumfile(fobj):
             break
         m.update(d)
     return m.hexdigest()
+
 
 def md5sum(fname):
     try:
@@ -39,52 +41,46 @@ def md5sum(fname):
     f.close()
     return ret
 
+
 def main():
     parser = argparse.ArgumentParser(description='Add a file to get.cm')
     parser.add_argument('--file',
-        dest='file',
-        required=False,
-        type=unicode,
-        help="Path of file to add"
-    )
+                        dest='file',
+                        required=False,
+                        type=unicode,
+                        help="Path of file to add")
     parser.add_argument('--url',
-        dest='url',
-        required=False,
-        type=unicode,
-        help="URL of the file to download and add"
-    )
+                        dest='url',
+                        required=False,
+                        type=unicode,
+                        help="URL of the file to download and add")
     parser.add_argument('--type',
-        dest='type',
-        choices=['nightly','RC','stable','snapshot'],
-        required=True,
-        type=unicode,
-        help="Type of file"
-    )
+                        dest='type',
+                        choices=['nightly', 'RC', 'stable', 'snapshot'],
+                        required=True,
+                        type=unicode,
+                        help="Type of file")
     parser.add_argument('--fullpath',
-        dest='full_path',
-        required=False,
-        type=unicode,
-        help="Full path of file accessable via mirrors. Example: /cm/artifacts/123/build/update-cm-7.2.0-RC9-ace-signed.zip"
-    )
+                        dest='full_path',
+                        required=False,
+                        type=unicode,
+                        help="Full path of file accessable via mirrors. Example: /cm/artifacts/123/build/update-cm-7.2.0-RC9-ace-signed.zip")
     parser.add_argument('--basepath',
-        dest='base_path',
-        required=False,
-        default="/opt/www/mirror/cm/",
-        help="Webroot of the mirror."
-    )
+                        dest='base_path',
+                        required=False,
+                        default="/opt/www/mirror/cm/",
+                        help="Webroot of the mirror.")
     parser.add_argument('--config',
-        dest='config',
-        required=False,
-        default='/etc/getcm.ini',
-        help="Path to configuration file."
-    )
+                        dest='config',
+                        required=False,
+                        default='/etc/getcm.ini',
+                        help="Path to configuration file.")
     parser.add_argument('--timestamp',
-        dest='timestamp',
-        type=int,
-        required=False,
-        default=None,
-        help="Timestamp of build"
-    )
+                        dest='timestamp',
+                        type=int,
+                        required=False,
+                        default=None,
+                        help="Timestamp of build")
 
     args = parser.parse_args()
     config = ConfigParser()
@@ -113,6 +109,7 @@ def main():
 
     return process_file(args)
 
+
 def download(url):
     tmpfn = tempfile.mktemp()
     logging.info("Downloading '%s' to '%s'", url, tmpfn)
@@ -123,8 +120,8 @@ def download(url):
     chunksize = 4096
     bytes_read = 0
     start_time = time.time()
-   
-    # Variables to keep track of progress. 
+
+    # Variables to keep track of progress.
     last_log = time.time()
     last_bytes = 0
 
@@ -138,13 +135,13 @@ def download(url):
         bytes_read += len(data)
         last_bytes += len(data)
 
-        if time.time() > last_log+2:
-            speed = convert_bytes((last_bytes/(time.time()-last_log)))
-            percent_complete = (bytes_read/total_bytes)*100
-            
+        if time.time() > last_log + 2:
+            speed = convert_bytes((last_bytes / (time.time() - last_log)))
+            percent_complete = (bytes_read / total_bytes) * 100
+
             logging.debug("Progress %0.2f%% @ %s/s", percent_complete, speed)
-           
-            # Reset 
+
+            # Reset
             last_log = time.time()
             last_bytes = 0
 
@@ -154,12 +151,13 @@ def download(url):
 
     return tmpfn
 
+
 def process_file(args):
     init_database(create_engine(args.db_uri))
     session = DBSession()
-    
+
     ota = OTAPackage(args.file)
-    
+
     md5hash = md5sum(args.file)
     new = File.get_by_md5sum(md5hash)
     if new is None:

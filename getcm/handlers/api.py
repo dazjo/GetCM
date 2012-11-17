@@ -6,6 +6,7 @@ from getcm import cache
 from getcm.model.schema import File
 from base import BaseHandler
 
+
 class ApiHandler(BaseHandler):
     request_id = None
 
@@ -54,7 +55,7 @@ class ApiHandler(BaseHandler):
             self.set_status(500)
             return self.fail("Invalid Parameters")
 
-        cache_key = 'api_after_%s_%s' % (device, str(round(after,-4)))
+        cache_key = 'api_after_%s_%s' % (device, str(round(after, -4)))
         result = cache.get(cache_key)
         if result is not None:
             return self.success(result)
@@ -63,7 +64,7 @@ class ApiHandler(BaseHandler):
         for channel in channels:
             file_obj = File.get_build(channel, device, after)
             if file_obj is not None:
-                changesfile = re.sub(file_obj.filename,"CHANGES.txt",file_obj.full_path)
+                changesfile = re.sub(file_obj.filename, "CHANGES.txt", file_obj.full_path)
                 result.append({
                     'channel': channel,
                     'filename': file_obj.filename,
@@ -74,7 +75,7 @@ class ApiHandler(BaseHandler):
                 })
 
         cache.set(cache_key, result)
-        
+
         return self.success(result)
 
     def method_get_all_builds(self):
@@ -95,7 +96,7 @@ class ApiHandler(BaseHandler):
             files = File.browse(device, channel, limit)
             for file_obj in files:
                 if file_obj is not None:
-                    changesfile = re.sub(file_obj.filename,"CHANGES.txt",file_obj.full_path)
+                    changesfile = re.sub(file_obj.filename, "CHANGES.txt", file_obj.full_path)
                     result.append({
                         'channel': channel,
                         'filename': file_obj.filename,

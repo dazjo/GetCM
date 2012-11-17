@@ -8,6 +8,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.util import join
 from sqlalchemy.sql.expression import func
 
+
 class File(Base):
     __tablename__ = "files"
 
@@ -31,6 +32,7 @@ class File(Base):
     @classmethod
     def get_by_filename(cls, filename):
         cache_key = "get_by_filename_%s" % filename
+
         def get_from_database():
             session = DBSession()
             try:
@@ -68,6 +70,7 @@ class File(Base):
     @classmethod
     def get_by_base62(cls, base62):
         cache_key = "get_by_base62_%s" % base62
+
         def get_from_database():
             session = DBSession()
             try:
@@ -86,6 +89,7 @@ class File(Base):
     @classmethod
     def get_by_md5sum(cls, md5hash):
         cache_key = "get_by_md5sum:%s" % md5hash
+
         def get_from_database():
             session = DBSession()
             try:
@@ -100,7 +104,6 @@ class File(Base):
             result = cache.set(cache_key, get_from_database())
 
         return result
-
 
     @classmethod
     def browse(cls, device, type, limit=50):
@@ -124,7 +127,7 @@ class File(Base):
         result = cache.get(cache_key)
         if result is None:
             result = cache.set(cache_key, get_from_database())
-        
+
         return result
 
     @classmethod
@@ -147,6 +150,7 @@ class File(Base):
             result = cache.set(cache_key, get_from_database())
 
         return result
+
 
 class Device(object):
     @classmethod

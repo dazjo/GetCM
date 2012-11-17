@@ -5,6 +5,7 @@ from getcm.model.devicemap import devicemap
 from getcm.utils.string import base62_encode
 from base import BaseHandler
 
+
 class BrowseHandler(BaseHandler):
     @asynchronous
     def get(self):
@@ -20,9 +21,9 @@ class BrowseHandler(BaseHandler):
         # Set default values for device names dictionary
         devicedict = {}
         for codename in devicelist:
-           if codename in devicemap:
-               devicedict[codename] = devicemap[codename]
-           else:
-               devicedict[codename] = codename
+            if codename in devicemap:
+                devicedict[codename] = devicemap[codename]
+            else:
+                devicedict[codename] = codename
 
         return self.render("browse.mako", {'request_type': type, 'request_device': device, 'devices': devicelist, 'devicenames': devicedict, 'files': files})

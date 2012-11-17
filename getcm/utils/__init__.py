@@ -1,6 +1,7 @@
 import random
 import bisect
 
+
 class WeightedChoice(object):
     def __init__(self, weights):
         self.totals = []

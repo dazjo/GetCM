@@ -3,6 +3,7 @@ import logging
 
 from getcm.model import DBSession
 
+
 class Cache(object):
     def __init__(self):
         self.store = {}
@@ -10,7 +11,7 @@ class Cache(object):
     def get(self, key):
         value, expires = self.store.get(key, (None, None))
         if expires is not None and expires > time.time():
-            logging.info("Cache Hit for '%s', expires in %s seconds" % (key, expires-time.time()))
+            logging.info("Cache Hit for '%s', expires in %s seconds" % (key, expires - time.time()))
             return value
         else:
             if value is not None:
@@ -21,7 +22,7 @@ class Cache(object):
                             logging.info("Expunged %s", obj)
                         except:
                             pass
-                
+
             logging.info("Cache Miss for '%s'" % (key))
             return None
 

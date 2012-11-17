@@ -7,8 +7,9 @@ from sqlalchemy.orm.session import sessionmaker
 DBSession = scoped_session(sessionmaker())
 Base = declarative_base(cls=AbstractTable)
 
+
 def init_database(engine):
     DBSession.configure(bind=engine)
-    __import__("getcm.model.schema", globals(), locals(), ["*"]) 
+    __import__("getcm.model.schema", globals(), locals(), ["*"])
     Base.metadata.bind = engine
     Base.metadata.create_all(engine)

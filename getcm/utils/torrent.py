@@ -9,7 +9,8 @@ import urllib
 from xml.sax.saxutils import escape
 
 verbose = False
-generator="DoucheTorrent 0.1"
+generator = "DoucheTorrent 0.1"
+
 
 class Metafile(object):
     def __init__(self):
@@ -17,7 +18,8 @@ class Metafile(object):
         self.reset()
 
     def scan_file(self, filename, use_chunks=True, max_chunks=255, chunk_size=256, progresslistener=None):
-        if verbose: print "Scanning file..."
+        if verbose:
+            print "Scanning file..."
         # Filename and size
         self.filename = os.path.basename(filename)
         if not self.hashes.filename:
@@ -30,13 +32,15 @@ class Metafile(object):
         maxlength = 524288
         # Calculate piece length
         if use_chunks:
-            minlength = chunk_size*1024
+            minlength = chunk_size * 1024
             self.hashes.piecelength = 1024
             while self.hashes.piecelength < maxlength and (size / self.hashes.piecelength > max_chunks or self.hashes.piecelength <= minlength):
                 self.hashes.piecelength *= 2
-            if verbose: print "Using piecelength", self.hashes.piecelength, "(" + str(self.hashes.piecelength / 1024) + " KiB)"
+            if verbose:
+                print "Using piecelength", self.hashes.piecelength, "(" + str(self.hashes.piecelength / 1024) + " KiB)"
             numpieces = size / self.hashes.piecelength
-            if numpieces < 2: use_chunks = False
+            if numpieces < 2:
+                use_chunks = False
         hashes = {}
         hashes['sha1'] = hashlib.sha1()
         sha1hash_copy = hashes['sha1'].copy()
@@ -56,7 +60,8 @@ class Metafile(object):
         fp = open(filename, "rb")
         while True:
             data = fp.read(4096)
-            if data == "": break
+            if data == "":
+                break
             # Progress updating
             if progresslistener:
                 reads_left -= 1
@@ -64,8 +69,9 @@ class Metafile(object):
                     reads_left = reads_per_progress
                     progress += 1
                     result = progresslistener.Update(progress)
-                    if get_first(result) == False:
-                        if verbose: print "Cancelling scan!"
+                    if get_first(result) is False:
+                        if verbose:
+                            print "Cancelling scan!"
                         return False
             # Process the data
             left = len(data)
@@ -81,22 +87,28 @@ class Metafile(object):
                     data = data[numbytes:]
                     left -= numbytes
                 if length == self.hashes.piecelength:
-                    if verbose: print "Done with piece hash", len(self.hashes.pieces)
+                    if verbose:
+                        print "Done with piece hash", len(self.hashes.pieces)
                     self.hashes.pieces.append(piecehash.hexdigest())
                     piecehash = sha1hash_copy.copy()
                     length = 0
         if use_chunks:
             if length > 0:
-                if verbose: print "Done with piece hash", len(self.hashes.pieces)
+                if verbose:
+                    print "Done with piece hash", len(self.hashes.pieces)
                 self.hashes.pieces.append(piecehash.hexdigest())
-            if verbose: print "Total number of pieces:", len(self.hashes.pieces)
+            if verbose:
+                print "Total number of pieces:", len(self.hashes.pieces)
         fp.close()
-        
+
         # Convert to string
         self.hashes.piecelength = str(self.hashes.piecelength)
-        if verbose: print "done"
-        if progresslistener: progresslistener.Update(100)
+        if verbose:
+            print "done"
+        if progresslistener:
+            progresslistener.Update(100)
         return True
+
     def reset(self):
         """Reset mutable attributes to allow object reuse"""
         self.changelog = ""
@@ -144,6 +156,7 @@ class Hashes(object):
         self.piecetype = ''
         self.files = []
 
+
 class Metalink(object):
     def __init__(self, overwrite_with_opts=True):
         self.hashes = Hashes()
@@ -154,7 +167,7 @@ class Metalink(object):
     def create_torrent(self, torrent, full_path):
         t = Torrent(torrent)
         fn = os.path.basename(full_path)
-        data = {'comment':encode_text(self.description), 'files':[[encode_text(fn), int(self.file.size)]], 'piece length':int(self.file.hashes.piecelength), 'pieces':self.file.hashes.pieces, 'created by':generator, 'encoding':'UTF-8'}
+        data = {'comment': encode_text(self.description), 'files': [[encode_text(fn), int(self.file.size)]], 'piece length': int(self.file.hashes.piecelength), 'pieces': self.file.hashes.pieces, 'created by': generator, 'encoding': 'UTF-8'}
         return t.create(data, full_path)
 
     def scan_file(self, filename, use_chunks=True, max_chunks=255, chunk_size=256, progresslistener=None):
@@ -215,7 +228,7 @@ class Torrent(object):
         return ''
 
     def create(self, data, full_path):
-        trackers = [["http://bacon.cyanogenmod.com:6969/announce"],["udp://tracker.openbittorrent.com:80/announce"]]
+        trackers = [["http://bacon.cyanogenmod.com:6969/announce"], ["udp://tracker.openbittorrent.com:80/announce"]]
 
         # Create torrent
         root = {}
@@ -284,7 +297,7 @@ class Torrent(object):
         pos = self.data.find(':', self.pos)
         length = int(self.data[self.pos:pos])
         self.pos = pos + 1
-        text = self.data[self.pos:self.pos+length]
+        text = self.data[self.pos:self.pos + length]
         self.pos += length
         return text
 
@@ -319,12 +332,14 @@ class Torrent(object):
         else:
             raise TypeError('Unsupported data type to bencode: %s' % t.__name__)
 
+
 def encode_text(text, encoding='utf-8'):
     return text.decode(sys.getfilesystemencoding()).encode(encoding)
 
+
 def create_torrent(path, output, full_path):
     m = Metalink()
-    m.scan_file(path) 
+    m.scan_file(path)
     infohash = m.create_torrent(output, full_path)
     print "%s	%s" % (os.path.basename(path), infohash)
     return infohash

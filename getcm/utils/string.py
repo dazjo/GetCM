@@ -20,6 +20,7 @@ def convert_bytes(bytes):
 
 ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+
 def base62_encode(num, alphabet=ALPHABET):
     """Encode a number in Base X
 
@@ -36,6 +37,7 @@ def base62_encode(num, alphabet=ALPHABET):
         arr.append(alphabet[rem])
     arr.reverse()
     return ''.join(arr)
+
 
 def base62_decode(string, alphabet=ALPHABET):
     """Decode a Base X encoded string into the number

@@ -1,5 +1,6 @@
 from sqlalchemy.orm.session import Session
 
+
 class AbstractTable(object):
     @property
     def session(self):

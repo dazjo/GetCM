@@ -2,6 +2,7 @@ from getcm.model.schema import File
 from getcm.utils.string import base62_encode
 from base import BaseHandler
 
+
 class Base62Handler(BaseHandler):
     def get(self, request):
         # Some torrent clients are retarded and urlencode the querystring.
@@ -24,4 +25,3 @@ class Base62Handler(BaseHandler):
             logging.warn("Webseeding for '%s'" % fileobj.filename)
 
         return self.redirect(url)
-
