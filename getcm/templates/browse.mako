@@ -48,12 +48,10 @@
       <td><a href="${device_link(device)}">${file.device|h}</a><br/><small class="md5">${devicenames[file.device]|h}</small></td>
       <td>${file.type}</td>
       <td>
-        <a href="https://tickleservice.appspot.com/authorizedtickle?applicationId=ROM%20Manager&data.url=http://get.cm/get/${file.full_path}&data.name=${file.filename}&failure_redirect=http://rommanager.appspot.com/webconnectfailure.html&success_redirect=http://rommanager.appspot.com/webconnectsuccess.html"><img src="${h.static_url('rommanager.png')}" alt="Send to ROMManager" title="Send to ROManager"/></a>
-        <a href="/torrents/${file.filename|h}.torrent"><img src="${h.static_url('bittorrent.png')}" alt="Download Torrent" title="Download Torrent"/></a>
-        &nbsp; <b>Direct Download</b>: 
+        <b>Direct Download</b>: 
         <a href="/get/${file.full_path}">${file.filename|h}</a>
         <br/>
-        <small class="md5">md5sum: ${file.md5sum|h} &nbsp;&nbsp;&nbsp;&nbsp; Short URL: <a href="http://get.cm/get/${file.base62}">http://get.cm/get/${file.base62}</a></small>
+        <small class="md5">md5sum: ${file.md5sum|h} &nbsp;&nbsp;&nbsp;&nbsp; Short URL: <a href="http://getcm.thebronasium.com/get/${file.base62}">http://getcm.thebronasium.com/get/${file.base62}</a></small>
       </td>
       <td>${file.human_size|h}</small></td>
       <td>${file.date_created|h}</td>

@@ -69,9 +69,6 @@
             </ul>
           </div>
         </div>
-        <div class="span10 adunit">
-            Special thanks to <a href="http://reflected.net/" target="_new">ReflectedNetworks</a> for donating bandwidth.  Interested in becoming a mirror?  <a href="/mirror">Find out more.</a>
-        </div>
         <div class="span10">
           ${next.body()}
         </div>

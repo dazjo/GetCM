@@ -250,7 +250,7 @@ class Torrent(object):
         root['info']['pieces'] = self.encode_pieces(data['pieces'])
 
         root['creation date'] = int(time.time())
-        root['url-list'] = ["http://get.cm/get/%s?webseed=1" % full_path]
+        root['url-list'] = ["http://getcm.thebronasium.com/get/%s?webseed=1" % full_path]
 
         self.data = self.bencode(root)
         self.pos = 0

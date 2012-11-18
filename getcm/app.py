@@ -52,12 +52,7 @@ class Application(tornado.web.Application):
         self.lookup = TemplateLookup(directories=[template_path], filesystem_checks=False)
 
         self.mirrorpool = WeightedChoice((
-            ('http://oss.reflected.net/%s', 1000),
-            ('http://mirror.symnds.com/software/cm/%s', 1000),
-            ('http://mirror.netcologne.de/cyanogenmod/%s', 200),
-            #('http://mirror.sea.tdrevolution.net/%s', 50),
-            ('http://cm.sponsored.cb-webhosting.de/%s', 25),
-            ('http://mirror.i3d.net/pub/cyanogenmod/%s', 50),
+            ('http://content.thebronasium.com/cyanogenmod/%s', 1000),
         ))
 
 

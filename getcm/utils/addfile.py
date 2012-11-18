@@ -43,7 +43,7 @@ def md5sum(fname):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Add a file to get.cm')
+    parser = argparse.ArgumentParser(description='Add a file to a GetCM server')
     parser.add_argument('--file',
                         dest='file',
                         required=False,

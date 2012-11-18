@@ -118,6 +118,7 @@ devicemap = {
     'u8150': 'Huawei U8150',
     'u8160': 'Huawei U8160',
     'u8220': 'Huawei U8220',
+    'u8815': 'Huawei Ascend G300',
     'urushi': 'SE XperiaRay-ST18i',
     'v9': 'ZTE V9',
     'vega': 'Advent Vega',

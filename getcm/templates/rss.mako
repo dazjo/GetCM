@@ -2,7 +2,7 @@
 <rss version="2.0">
 <channel>
 <title>CyanogenMod Downloads</title>
-<link>http://get.cm</link>
+<link>http://getcm.thebronasium.com</link>
 <ttl>60</ttl>
 <description>CyanogenMod Downloads</description>
 % for file in files:
