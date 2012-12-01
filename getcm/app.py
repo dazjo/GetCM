@@ -52,7 +52,7 @@ class Application(tornado.web.Application):
         self.lookup = TemplateLookup(directories=[template_path], filesystem_checks=False)
 
         self.mirrorpool = WeightedChoice((
-            ('http://content.thebronasium.com/cyanogenmod/%s', 1000),
+            ('http://content.thebronasium.com/%s', 1000),
         ))
 
 
