@@ -4,6 +4,8 @@ devicemap = {
     'anzu': 'SE XperiaArc-LT15i',
     'aoba': 'SE XperiaIon-LT28h',
     'blade': 'ZTE Blade',
+    'blade2_p736e': 'ZTE Crescent (TMO)',
+    'blade2_p736v': 'ZTE Crescent (OUK)',
     'bravoc': 'HTC Desire CDMA',
     'bravo': 'HTC Desire',
     'buzz': 'HTC Wildfire',
