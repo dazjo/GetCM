@@ -54,6 +54,7 @@ devicemap = {
     'i727': 'Samsung Galaxy S2 ATT LTE',
     'i777': 'Samsung Galaxy S2 ATT',
     'i9100': 'Samsung Galaxy S II (intl)',
+    'i9103': 'Samsung Galaxy R/Z',
     'i9100g': 'Samsung Galaxy S II (G)',
     'i9300': 'Samsung Galaxy S III (intl)',
     'inc': 'Droid Incredible',
