@@ -179,6 +179,6 @@ devicemap = {
     'z71': 'Commtiva Z71',
     'zeppelin': 'Motorola Cliq XT',
     'zero': 'Geeksphone Zero',
-    'zeus': 'Sony Ericsson Xperia Play (GSM)'
-    'zeusc': 'Sony Ericsson Xperia Play (CDMA)',
+    'zeus': 'Sony Ericsson Xperia Play (GSM)',
+    'zeusc': 'Sony Ericsson Xperia Play (CDMA)'
 }
