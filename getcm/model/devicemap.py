@@ -30,6 +30,7 @@ devicemap = {
     'droid2we': 'Motorola Droid 2 Global',
     'e400': 'LG Optimus L3',
     'e510': 'LG Optimus Hub',
+    'e610': 'LG Optimus L5',
     'e720': 'LG Optimus Chic',
     'e730': 'LG Optimus Sol',
     'e739': 'LG myTouch',
