@@ -1,5 +1,6 @@
 devicemap = {
     'a700': 'Acer Iconia Tab A700',
+    'acclaim': 'Barnes & Noble Nook Table',
     'ace': 'HTC Desire HD / Inspire 4G',
     'anzu': 'Sony Ericsson Xperia Arc',
     'aoba': 'Sony Xperia ion',
