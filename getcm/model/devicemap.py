@@ -34,6 +34,7 @@ devicemap = {
     'e720': 'LG Optimus Chic',
     'e730': 'LG Optimus Sol',
     'e739': 'LG myTouch',
+    'e975': 'LG Optimus G (Intl)',
     'encore': 'Barnes & Noble Nook Color',
     'endeavoru': 'HTC One X',
     'epicmtd': 'Samsung Epic 4G',
