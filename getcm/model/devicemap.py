@@ -119,6 +119,7 @@ devicemap = {
     'p700': 'LG Optimus L7',
     'p720': 'LG Optimus 3D Max',
     'p760': 'LG Optimus L9',
+    'p880': 'LG Optimus 4X HD',
     'p920': 'LG Optimus 3D',
     'p925': 'LG Thrill 4G',
     'p930': 'LG Nitro HD / Optimus LTE',
