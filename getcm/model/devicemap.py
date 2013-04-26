@@ -45,6 +45,7 @@ devicemap = {
     'everest': 'Motorola Xoom (GSM)',
     'evita': 'HTC One XL',
     'fascinatemtd': 'Samsung Fascinate',
+    'find5': 'Oppo Find 5',
     'fireball': 'Droid Incredible 4G LTE',
     'galaxys2att': 'Samsung Galaxy S II (AT&T)',
     'galaxys2': 'Samsung Galaxy S II (Intl)',
