@@ -78,8 +78,7 @@ class FetchBuild(object):
                             if "-M" in artifact:
                                 build_type = "snapshot"
                             else:
-                                #build_type = "experimental"
-                                build_type = "nightly"
+                                build_type = "test"
                         if "-RC" in artifact:
                             build_type = "RC"
                         #cmd = "/usr/local/bin/getcm.addfile --timestamp %s --url %s --fullpath %s --type %s --config %s" % (timestamp, artifact, base, build_type, self.configPath)
