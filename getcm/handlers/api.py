@@ -55,7 +55,7 @@ class ApiHandler(BaseHandler):
             self.set_status(500)
             return self.fail("Invalid Parameters")
 
-        cache_key = 'api_after_%s_%s' % (device, str(round(after, -4)))
+        cache_key = 'api_after_%s_%s_%s' % (device, "_".join(sorted(channels)), str(round(after, -4)))
         result = cache.get(cache_key)
         if result is not None:
             return self.success(result)
@@ -86,7 +86,7 @@ class ApiHandler(BaseHandler):
             self.set_status(500)
             return self.fail("Invalid Parameters")
 
-        cache_key = 'api_all_%s_%s' % (device, str(limit))
+        cache_key = 'api_all_%s_%s_%s' % (device, "_".join(sorted(channels)), str(limit))
         result = cache.get(cache_key)
         if result is not None:
             return self.success(result)

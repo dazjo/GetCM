@@ -81,6 +81,8 @@ devicemap = {
     'l900': 'Samsung Galaxy Note II (Sprint)',
     'legend': 'HTC Legend',
     'liberty': 'HTC Aria',
+    'm7': 'HTC One (GSM)',
+    'm7wls': 'HTC One (Sprint)',
     'maguro': 'Google Galaxy Nexus (GSM)',
     'mako': 'Google Nexus 4',
     'mango': 'Sony Ericsson Xperia Mini Pro',
