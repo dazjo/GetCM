@@ -174,10 +174,7 @@ def process_file(args):
     else:
         new.full_path = args.file.replace(args.base_path, "")
 
-    info_hash = create_torrent(args.file, "/opt/www/torrents/%s.torrent" % new.filename, new.full_path)
-
     new.type = args.type
-    new.info_hash = info_hash
     new.size = os.path.getsize(args.file)
     new.device = ota.build_prop.get('ro.cm.device', 'unknown')
     if args.timestamp is not None:

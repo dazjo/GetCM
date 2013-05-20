@@ -14,7 +14,7 @@ from mako.template import Template
 from mako.lookup import TemplateLookup
 
 from model import DBSession, init_database
-from handlers import BrowseHandler, RssHandler, SumHandler, ZipHandler, Base62Handler, ApiHandler, MirrorApplicationHandler
+from handlers import BrowseHandler, SumHandler, ZipHandler, Base62Handler, ApiHandler, MirrorApplicationHandler
 from getcm.utils import WeightedChoice
 
 define('port', 6543)
@@ -31,7 +31,6 @@ class Application(tornado.web.Application):
             (r"/get/(.*)\.zip", ZipHandler),
             (r"/get/(.*/CHANGES.txt)", tornado.web.StaticFileHandler, {"path": "/opt/www/mirror"}),
             (r"/get/(.*)", Base62Handler),
-            (r"/rss", RssHandler),
             (r"/api", ApiHandler),
             (r"/mirror", MirrorApplicationHandler),
             (r"/static/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(os.path.dirname(__file__), "static")}),

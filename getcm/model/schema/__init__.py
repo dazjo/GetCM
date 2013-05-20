@@ -17,7 +17,6 @@ class File(Base):
     size = Column('size', Integer)
     full_path = Column('full_path', String(255))
     md5sum = Column('md5sum', String(32), unique=True)
-    info_hash = Column('info_hash', String(50))
 
     device = Column('device', String(100), index=True)
     type = Column('type', String(20), index=True)
