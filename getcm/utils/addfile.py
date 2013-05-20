@@ -16,7 +16,6 @@ from sqlalchemy.exc import IntegrityError
 from getcm.utils.string import convert_bytes
 from getcm.model import init_database, DBSession
 from getcm.model.schema import File
-from getcm.utils.torrent import create_torrent
 
 # Initialize Logging
 logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.DEBUG)
