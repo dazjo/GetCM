@@ -47,7 +47,7 @@ class FetchBuild(object):
 
         result = []
         for artifact in data['artifacts']:
-            if artifact['displayPath'].endswith(".zip") or artifact['displayPath'].endswith("CHANGES.txt"):  # and "NIGHTLY" in artifact['displayPath'] or "SNAPSHOT" in artifact['displayPath'] or "EXPERIMENTAL" in artifact['displayPath']:
+            if artifact['displayPath'].endswith(".zip") or artifact['displayPath'].endswith("CHANGES.txt") or artifact['displayPath'].endswith("build.prop"):  # and "NIGHTLY" in artifact['displayPath'] or "SNAPSHOT" in artifact['displayPath'] or "EXPERIMENTAL" in artifact['displayPath']:
                 url = "http://jenkins.cyanogenmod.com/job/android/%s/artifact/archive/%s" % (build['number'], artifact['displayPath'])
                 timestamp = (data['timestamp'] + data['duration']) / 1000
                 result.append((url, timestamp))
@@ -81,22 +81,28 @@ class FetchBuild(object):
                                 build_type = "test"
                         if "-RC" in artifact:
                             build_type = "RC"
-                        #cmd = "/usr/local/bin/getcm.addfile --timestamp %s --url %s --fullpath %s --type %s --config %s" % (timestamp, artifact, base, build_type, self.configPath)
                         try:
                             os.mkdir("/opt/www/mirror/jenkins/%s" % build_number)
                         except:
                             pass
                         download_cmd = "wget -O /opt/www/mirror/jenkins/%s/%s %s" % (build_number, fname, artifact)
-                        print "Running: %s" % download_cmd
-                        os.system(download_cmd)
-                        if (fname != "CHANGES.txt"):
-                            mirror_cmd = "ssh -p2200 root@mirror.sea.tdrevolution.net \"/root/add.sh /srv/mirror/jenkins/%s %s %s\"" % (build_number, artifact, fname)
-                            print "Running: %s" % mirror_cmd
-                            os.system(mirror_cmd)
+
+                        # Only download CHANGES.txt and build.prop locally
+                        if not fname.endswith(".zip"):
+                            print "Running: %s" % download_cmd
+                            os.system(download_cmd)
+
+                        # Download all artifacts to the mirror
+                        mirror_cmd = "ssh -p2200 root@mirror.sea.tdrevolution.net \"/root/add.sh /srv/mirror/jenkins-test/%s %s %s\"" % (build_number, artifact, fname)
+                        print "Running: %s" % mirror_cmd
+                        os.system(mirror_cmd)
+
+                        # Run the build.prop through getcm.addfile
+                        if fname.endswith(".zip"):
                             addfile_cmd = "/usr/local/bin/getcm.addfile --timestamp %s --file /opt/www/mirror/jenkins/%s/%s --fullpath jenkins/%s/%s --type %s --config %s" % (timestamp, build_number, fname, build_number, fname, build_type, self.configPath)
                             print "Running: %s" % addfile_cmd
                             os.system(addfile_cmd)
-                            #raise SystemExit()
+            #break
 
 
 def main():
