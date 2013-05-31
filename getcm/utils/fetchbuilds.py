@@ -57,12 +57,12 @@ class FetchBuild(object):
         for build in self.get_builds():
             artifactlist = self.get_artifact(build)
             if artifactlist:
+                if os.path.exists("/opt/www/mirror/jenkins/%s" % artifactlist[0][0].split("/")[5]):
+                    print "Exists, skipping."
+                    continue
                 for artifactdata in artifactlist:
                     artifact, timestamp = artifactdata
                     full_path = "jenkins/%s/%s" % (artifact.split("/")[5], artifact.split("/")[-1])
-                    if os.path.exists("/opt/www/mirror/%s" % full_path):
-                        print "Exists, skipping."
-                        continue
                     fileobj = File.get_by_fullpath(full_path)
                     if not fileobj:
                         base = "artifacts/%s" % artifact.replace("http://jenkins.cyanogenmod.com/job/android/", "")
