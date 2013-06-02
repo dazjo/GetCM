@@ -61,6 +61,10 @@ class ApiHandler(BaseHandler):
             return self.success(result)
 
         result = []
+
+        if 'snapshot' in channels and 'RC' not in channels:
+            channels.append('RC')
+
         for channel in channels:
             file_obj = File.get_build(channel, device, after)
             if file_obj is not None:
@@ -92,6 +96,10 @@ class ApiHandler(BaseHandler):
             return self.success(result)
 
         result = []
+
+        if 'snapshot' in channels and 'RC' not in channels:
+            channels.append('RC')
+
         for channel in channels:
             files = File.browse(device, channel, limit)
             for file_obj in files:
