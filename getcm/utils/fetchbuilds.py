@@ -37,6 +37,9 @@ class FetchBuild(object):
         if data['building'] or data['duration'] == 0:
             return None
 
+        if data['result'] != 'SUCCESS':
+            return None
+
         waituntil = datetime.fromtimestamp((data['timestamp'] + data['duration']) / 1000 + 10 * 60)
         now = datetime.fromtimestamp(int(time.time()))
         if waituntil > now:
