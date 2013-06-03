@@ -29,6 +29,25 @@ class File(Base):
         return convert_bytes(self.size)
 
     @classmethod
+    def get_latest_by_device(cls, device):
+        cache_key = "get_latest_by_device_%s" % device
+
+        def get_from_database():
+            session = DBSession()
+            try:
+                file = session.query(cls).filter(cls.device == device).order_by(cls.date_created.desc()).first()
+            except NoResultFound:
+                file = None
+            
+            return file
+
+        result = cache.get(cache_key)
+        if result is None:
+            result = cache.set(cache_key, get_from_database())
+
+        return result
+
+    @classmethod
     def get_by_filename(cls, filename):
         cache_key = "get_by_filename_%s" % filename
 

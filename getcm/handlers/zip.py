@@ -6,7 +6,10 @@ class ZipHandler(BaseHandler):
     def get(self, request):
         request = request + ".zip"
 
-        if "/" in request:
+        if request.endswith("-latest.zip"):
+            device = request.replace("-latest.zip", "")
+            fileobj = File.get_latest_by_device(device)
+        elif "/" in request:
             fileobj = File.get_by_fullpath(request)
         elif "/" not in request:
             fileobj = File.get_by_filename(request)
