@@ -102,7 +102,7 @@ class FetchBuild(object):
 
                         # Run the build.prop through getcm.addfile
                         if fname.endswith(".zip"):
-                            addfile_cmd = "/usr/local/bin/getcm.addfile --timestamp %s --file /opt/www/mirror/jenkins/%s/%s --fullpath jenkins/%s/%s --type %s --config %s" % (timestamp, build_number, fname, build_number, fname, build_type, self.configPath)
+                            addfile_cmd = "/usr/local/bin/getcm.addfile --file /opt/www/mirror/jenkins/%s/%s --fullpath jenkins/%s/%s --type %s --config %s" % (build_number, fname, build_number, fname, build_type, self.configPath)
                             print "Running: %s" % addfile_cmd
                             os.system(addfile_cmd)
             #break

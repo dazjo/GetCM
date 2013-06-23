@@ -159,9 +159,12 @@ def process_file(args):
     build_prop_raw = open(build_prop).read()
 
     device_name = None
+    build_date = None
     for line in build_prop_raw.split("\n"):
         if line.startswith("ro.cm.device"):
             k, device_name = line.split("=")
+        if line.startswith("ro.build.date.utc"):
+            k, build_date = line.split("=")
 
     if device_name is None:
         device_name = "unknown"
@@ -199,6 +202,8 @@ def process_file(args):
     new.device = device_name
     if args.timestamp is not None:
         new.date_created = datetime.fromtimestamp(args.timestamp)
+    elif build_date is not None:
+        new.date_created = build_date
     else:
         new.date_created = datetime.fromtimestamp(os.path.getmtime(args.file))
 
