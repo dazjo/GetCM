@@ -93,7 +93,7 @@ class FetchBuild(object):
                             os.system(download_cmd)
 
                         # Download all artifacts to the mirror
-                        mirror_cmd = "ssh -p2200 root@mirror.sea.tdrevolution.net \"/root/add.sh /srv/mirror/jenkins/%s %s %s\"" % (build_number, artifact, fname)
+                        mirror_cmd = "ssh -p2200 root@mirror.sea.tdrevolution.net \"/root/add.sh /srv/mirror/jenkins-test/%s %s %s\"" % (build_number, artifact, fname)
                         print "Running: %s" % mirror_cmd
                         os.system(mirror_cmd)
 
