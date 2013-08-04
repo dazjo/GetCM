@@ -4,7 +4,6 @@ import sys
 import logging
 import tempfile
 import urllib2
-import httplib
 import time
 import os
 
@@ -155,30 +154,10 @@ def download(url):
 def process_file(args):
     init_database(create_engine(args.db_uri))
     session = DBSession()
-    build_prop = os.path.dirname(args.file) + "/build.prop"
-    build_prop_raw = open(build_prop).read()
 
-    device_name = None
-    for line in build_prop_raw.split("\n"):
-        if line.startswith("ro.cm.device"):
-            k, device_name = line.split("=")
+    ota = OTAPackage(args.file)
 
-    if device_name is None:
-        device_name = "unknown"
-
-    # Determine md5sum
-    build_number = args.full_path.split("/")[1]
-    zip_name = args.full_path.split("/")[-1]
-    md5_url = "http://jenkins.cyanogenmod.com/job/android/%s/artifact/archive/%s.md5sum" % (build_number, zip_name)
-    md5hash = urllib2.urlopen(md5_url).read().split(" ")[0]
-
-    # Determine filesize
-    file_url = "/job/android/%s/artifact/archive/%s" % (build_number, zip_name)
-    conn = httplib.HTTPConnection("jenkins.cyanogenmod.com")
-    conn.request("HEAD", file_url)
-    res = conn.getresponse()
-    file_size = res.getheader('content-length')
-
+    md5hash = md5sum(args.file)
     new = File.get_by_md5sum(md5hash)
     if new is None:
         new = File()
@@ -195,8 +174,8 @@ def process_file(args):
         new.full_path = args.file.replace(args.base_path, "")
 
     new.type = args.type
-    new.size = file_size
-    new.device = device_name
+    new.size = os.path.getsize(args.file)
+    new.device = ota.build_prop.get('ro.cm.device', 'unknown')
     if args.timestamp is not None:
         new.date_created = datetime.fromtimestamp(args.timestamp)
     else:
@@ -206,7 +185,6 @@ def process_file(args):
     logging.debug("Type = %s", new.type)
     logging.debug("Device = %s", new.device)
     logging.debug("MD5 = %s", new.md5sum)
-    logging.debug("Size = %s", new.size)
 
     try:
         session.add(new)
