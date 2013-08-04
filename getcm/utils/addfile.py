@@ -203,7 +203,7 @@ def process_file(args):
     if args.timestamp is not None:
         new.date_created = datetime.fromtimestamp(args.timestamp)
     elif build_date is not None:
-        new.date_created = datetime.fromtimestamp(int(build_date))
+        new.date_created = build_date
     else:
         new.date_created = datetime.fromtimestamp(os.path.getmtime(args.file))
 
