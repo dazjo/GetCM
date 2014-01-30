@@ -124,7 +124,7 @@ class File(Base):
         return result
 
     @classmethod
-    def browse(cls, device, type, limit=50):
+    def browse(cls, device, type, limit=100):
         cache_key = "%s_%s_%s" % (device or "null", type or "null", limit)
 
         def get_from_database():
