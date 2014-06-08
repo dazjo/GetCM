@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="${h.static_url('/bootstrap/css/bootstrap.min.css')}"/>
     <link rel="stylesheet" type="text/css" href="${h.static_url('/bootstrap/css/bootstrap-responsive.min.css')}"/>
     <link rel="stylesheet" type="text/css" href="${h.static_url('core.css')}"/>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.7.2.min.js"></script>
     <script type="text/javascript"> 
 
       var _gaq = _gaq || [];
