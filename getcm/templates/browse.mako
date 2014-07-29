@@ -51,7 +51,7 @@
         <b>Direct Download</b>: 
         <a href="/get/${file.full_path}">${file.filename|h}</a>
         <br/>
-        <small class="md5">md5sum: ${file.md5sum|h} &nbsp;&nbsp;&nbsp;&nbsp; Short URL: <a href="http://getcm.thebronasium.com/get/${file.base62}">http://getcm.thebronasium.com/get/${file.base62}</a></small>
+        <small class="md5">md5sum: ${file.md5sum|h} &nbsp;&nbsp;&nbsp;&nbsp; Short URL: <a href="http://getcm.dazzozo.com/get/${file.base62}">http://getcm.dazzozo.com/get/${file.base62}</a></small>
       </td>
       <td>${file.human_size|h}</small></td>
       <td>${file.date_created|h}</td>
